@@ -1,0 +1,240 @@
+openapi: 3.0.3
+info:
+  title: DJANGO Director Management
+  version: 0.0.0
+paths:
+  /trainingtype/:
+    get:
+      operationId: trainingtype_list
+      tags:
+      - trainingtype
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingType'
+          description: ''
+    post:
+      operationId: trainingtype_create
+      tags:
+      - trainingtype
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingType'
+          description: ''
+  /trainingtype/{training}/:
+    get:
+      operationId: trainingtype_retrieve
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingType'
+          description: ''
+    put:
+      operationId: trainingtype_update
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrainingType'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingType'
+          description: ''
+    patch:
+      operationId: trainingtype_partial_update
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainingType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainingType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainingType'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingType'
+          description: ''
+    delete:
+      operationId: trainingtype_destroy
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /trainingtype/{training}/custom_delete/:
+    delete:
+      operationId: trainingtype_custom_delete_destroy
+      description: Custom delete method for Snippet.
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /trainingtype/{training}/highlight/:
+    get:
+      operationId: trainingtype_highlight_retrieve
+      parameters:
+      - in: path
+        name: training
+        schema:
+          type: string
+        description: A unique value identifying this training type.
+        required: true
+      tags:
+      - trainingtype
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/TrainingType'
+          description: ''
+components:
+  schemas:
+    PatchedTrainingType:
+      type: object
+      properties:
+        training:
+          type: string
+          maxLength: 30
+        launched_date:
+          type: string
+          format: date
+          readOnly: true
+        description:
+          type: string
+          maxLength: 1000
+        owner:
+          type: integer
+    TrainingType:
+      type: object
+      properties:
+        training:
+          type: string
+          maxLength: 30
+        launched_date:
+          type: string
+          format: date
+          readOnly: true
+        description:
+          type: string
+          maxLength: 1000
+        owner:
+          type: integer
+      required:
+      - description
+      - launched_date
+      - training
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
